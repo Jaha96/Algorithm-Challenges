@@ -19,43 +19,46 @@ public class AddTwoNumbers {
     public static void main(String[] args){
         System.out.println("Hello world");
 
-//        ListNode l1 = setList(0);
-//        ListNode l2 = setList(0);
-
-        ListNode l1 = new ListNode(9);
-        ListNode l2 = setList(999999991);
+        ListNode l1 = new ListNode(9, new ListNode(1, new ListNode(6)));
+        ListNode l2 = new ListNode(0);
 
         ListNode result = addTwoNumbers(l1, l2);
         System.out.println(result);
     }
 
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        return addNumbers(l1, l2, 0);
+    }
 
-    static int getNumbers(ListNode listNode){
-        if (listNode.next != null){
-            int v = getNumbers(listNode.next);
-            v = v * 10 + listNode.val;
-            return v;
+    public static ListNode addNumbers(ListNode l1, ListNode l2, int carry) {
+        ListNode result = new ListNode();
+        int sum = 0;
+        if(l1 != null && l2 != null){
+            sum = l1.val + l2.val + carry;
+            result.val = sum % 10;
+            result.next = addNumbers(l1.next, l2.next, sum / 10);
+        }else{
+            if (l1 == null && l2 == null && carry == 0)
+                return null;
+            ListNode nextVal = null;
+            int l1Val = 0, l2Val = 0;
+            if (l1 != null) {
+                l1Val = l1.val;
+                nextVal = l1.next;
+            }
+            if (l2 != null) {
+                l2Val = l2.val;
+                nextVal = l2.next;
+            }
+            sum = l1Val + l2Val + carry;
+            result.val = sum % 10;
+            if(sum / 10 != 0 || nextVal != null)
+                result.next = addNumbers(nextVal, null, sum / 10);
         }
-        return listNode.val;
+        return  result;
     }
 
-    static ListNode setList(long numbers){
-        if(numbers!=0){
-            ListNode l = new ListNode((int)numbers%10);
-            l.next = setList(numbers / 10);
-            return l;
-        }
-        return null;
-    }
 
-    static ListNode addTwoNumbers(ListNode l1, ListNode l2){
-        int l1Number = getNumbers(l1);
-        int l2Number = getNumbers(l2);
-        int sum = l1Number + l2Number;
-        if(sum == 0)
-            return new ListNode(0);
-        return setList(sum);
-    }
 
 }
 
