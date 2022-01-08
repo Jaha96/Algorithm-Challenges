@@ -25,45 +25,16 @@ public class LongestCommonPrefix {
 //        System.out.println("Result: " + longestCommonPrefix(new String[]{"jaha","habas","japar", "hapar", "hapsatar"}));
         System.out.println("Result: " + longestCommonPrefix(new String[]{"ab", "a"}));
     }
-    public static String commonPrefix(String a, String b){
-        String commons = null;
-        int len = a.length() > b.length() ? b.length() : a.length();
-        for(int i=1; i<=len; i++){
-            if (a.substring(0, i).equals(b.substring(0, i)))
-                commons = a.substring(0,i);
-        }
-        return commons;
-    }
 
     public static String longestCommonPrefix(String[] strs) {
-        if(strs.length == 1)
-            return strs[0];
-        HashMap<String, Integer> commonCounts = new HashMap<>();
-        for(int i=0; i<strs.length; i++){
-            for(int j=i+1; j<strs.length; j++){
-                String commonPrefix = commonPrefix(strs[i], strs[j]);
-                if(commonPrefix != null){
-                    if (commonCounts.containsKey(commonPrefix))
-                        commonCounts.put(commonPrefix, commonCounts.get(commonPrefix) + 1);
-                    else
-                        commonCounts.put(commonPrefix, 1);
-                }
-                System.out.println(strs[i] +", "+strs[j]);
+        if (strs.length == 0) return "";
+        String prefix = strs[0];
+        for (int i=0; i<strs.length; i++){
+            while(strs[i].indexOf(prefix)!=0){
+                prefix = prefix.substring(0, prefix.length() - 1);
+                if (prefix.isEmpty()) return "";
             }
         }
-        if(commonCounts.isEmpty())
-            return "";
-        else {
-            int max = 0;
-            String retStr = "";
-            for(String key: commonCounts.keySet()){
-                if(commonCounts.get(key) > max){
-                    max = commonCounts.get(key);
-                    retStr = key;
-                }
-            }
-
-            return retStr;
-        }
+        return prefix;
     }
 }
