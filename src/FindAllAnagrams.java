@@ -80,7 +80,7 @@ public class FindAllAnagrams {
     }
 
     // 2022.10.06 Sliding window, Not passed
-    // Learned lesson: Give appropriate variable names.
+    // Learned lesson: Give appropriate variable names. 
     public static List<Integer> findAnagrams(String s, String p) {
         
         List<Integer> result = new ArrayList<>();
