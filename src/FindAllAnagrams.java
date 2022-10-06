@@ -1,5 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 /*
  * 438. Find All Anagrams in a String
  * 
@@ -26,6 +28,7 @@ public class FindAllAnagrams {
     public static void main(String[] args){
         System.out.println(findAnagrams("cbaebabacd", "abc"));
         System.out.println(findAnagrams("abab", "ab"));
+        System.out.println(findAnagrams("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
     }
 
     public static boolean isAnagram(String s, String p){
@@ -42,8 +45,22 @@ public class FindAllAnagrams {
         return true;
     }
 
+    public static boolean isAnagram(Map<Character, Integer> mapS, Map<Character, Integer> mapP){
+    
+        if(mapS.size() != mapP.size()) return false;
+        
+        for(Character key: mapS.keySet()){
+            if(!mapP.containsKey(key))
+                return false;
+            
+            if(mapP.get(key) != mapS.get(key))
+                return false;
+        }
+        return true;
+    }
+
     // 2022.10.05 Brute force
-    public static List<Integer> findAnagrams(String s, String p) {
+    public static List<Integer> findAnagrams_backup1(String s, String p) {
         
         List<Integer> result = new ArrayList<>();
 
@@ -60,5 +77,59 @@ public class FindAllAnagrams {
             p2++;
         }
         return result;
+    }
+
+    // 2022.10.06 Sliding window, Not passed
+    // Learned lesson: Give appropriate variable names.
+    public static List<Integer> findAnagrams(String s, String p) {
+        
+        List<Integer> result = new ArrayList<>();
+        
+        if(s.length() < p.length()) return result;
+        
+        Map<Character, Integer> mapS = new HashMap<>();
+        Map<Character, Integer> mapP = new HashMap<>();
+        
+        for(int i=0; i<p.length(); i++){
+            if(mapP.containsKey(p.charAt(i))){
+                mapP.put(p.charAt(i), mapP.get(p.charAt(i)) + 1);
+            }else{
+                mapP.put(p.charAt(i), 1);
+            }
+            
+            if(mapS.containsKey(s.charAt(i))){
+                mapS.put(s.charAt(i), mapS.get(s.charAt(i)) + 1);
+            }else{
+                mapS.put(s.charAt(i), 1);
+            }
+        }
+        
+        int left = 0;
+        if(isAnagram(mapS, mapP))
+            result.add(left);
+        
+        for(int right = p.length();right<s.length();right++){
+            
+            // Removing left char of s
+            if(mapS.get(s.charAt(left)) <= 1)
+                mapS.remove(s.charAt(left));
+            else
+                mapS.put(s.charAt(left), mapS.get(s.charAt(left)) - 1);
+            
+            left++;
+
+            // Adding right char of s
+            if(mapS.containsKey(s.charAt(right)))
+                mapS.put(s.charAt(right), mapS.get(s.charAt(right)) + 1);
+            else
+                mapS.put(s.charAt(right), 1);
+            
+            // mapS updated, now check is anagram with mapP
+            if(isAnagram(mapS, mapP))
+                result.add(left);
+        }
+        
+        return result;
+
     }
 }
