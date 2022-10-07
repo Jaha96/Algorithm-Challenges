@@ -46,14 +46,12 @@ public class FindAllAnagrams {
     }
 
     public static boolean isAnagram(Map<Character, Integer> mapS, Map<Character, Integer> mapP){
-    
-        if(mapS.size() != mapP.size()) return false;
-        
+
         for(Character key: mapS.keySet()){
-            if(!mapP.containsKey(key))
-                return false;
+            int s = mapS.get(key);
+            int p = mapP.getOrDefault(key, 0);
             
-            if(mapP.get(key) != mapS.get(key))
+            if(s != p)
                 return false;
         }
         return true;
@@ -79,7 +77,7 @@ public class FindAllAnagrams {
         return result;
     }
 
-    // 2022.10.06 Sliding window, Not passed
+    // 2022.10.06 Sliding window
     // Learned lesson: Give appropriate variable names. 
     public static List<Integer> findAnagrams(String s, String p) {
         
