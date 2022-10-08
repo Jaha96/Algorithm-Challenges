@@ -1,5 +1,8 @@
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class GroupAnagrams {
 
@@ -42,7 +45,7 @@ public class GroupAnagrams {
     
 
     // 2022.10.08 Almost brute force
-    public static List<List<String>> groupAnagrams(String[] strs) {
+    public static List<List<String>> groupAnagrams_backup1(String[] strs) {
         
         List<List<String>> result = new ArrayList<>();
         
@@ -81,5 +84,24 @@ public class GroupAnagrams {
         
         return result;
         
+    }
+
+    // 2022.10.08 23:00 Count with HashMap
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        if(strs == null || strs.length == 0)
+            return new ArrayList<>();
+
+        Map<String, List<String>> map = new HashMap<>();
+
+        for(String str: strs){
+            char[] letters = new char[26];
+
+            for(char c: str.toCharArray()) letters[c-'a']++;
+            String key = String.valueOf(letters);
+            if(!map.containsKey(key)) map.put(key, new ArrayList<>());
+            map.get(key).add(str);
+        }
+
+        return new ArrayList<>(map.values());
     }
 }
