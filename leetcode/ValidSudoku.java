@@ -36,20 +36,29 @@ public class ValidSudoku {
 
 
     // 2022.10.13 Run through rows and cols, !important Need to check 3x3 blocks
+    // 2022.10.14 Solved 3x3 block
     public boolean isValidSudoku(char[][] board) {
         
         Set<Character> row;
         Set<Character> col;
+        Set<Character> block;
 
         for(int r=0; r<board.length; r++){
             row = new HashSet<>();
             col = new HashSet<>();
+            block = new HashSet<>();
             for(int c=0; c<board[r].length; c++){
                 char rowNumber = board[r][c];
                 if(rowNumber != '.' && !row.add(rowNumber)) return false;
 
                 char colNumber = board[c][r];
                 if(colNumber != '.' && !col.add(colNumber)) return false;
+
+                
+
+                // char blockNumber = board[c/3 + (r/3)*3][c%3 + (r/3)*3];
+                char blockNumber = board[3*(r/3) + c/3][3*(r%3) + c%3];
+                if(blockNumber != '.' && !block.add(blockNumber)) return false;
             }
         }
         
