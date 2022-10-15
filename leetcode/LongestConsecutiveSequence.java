@@ -18,19 +18,13 @@ public class LongestConsecutiveSequence {
 
         int longest = 0;
         for(int n: nums){
-            int counter = 1;
             // Find and count next value, if n not have previous value
             if(!numsSet.contains(n-1)){
                 int nextValue = n+1;
-                while(numsSet.contains(nextValue)){
-                    counter++;
-                    nextValue++;
-                }
+                while(numsSet.contains(nextValue))  nextValue++;
+                longest = Math.max(nextValue - n, longest);
             }
-            if(counter > longest) longest = counter;
         }
-
-
         return longest;
     }
 }
