@@ -54,7 +54,7 @@ public class ValidAnagram {
     
 
     // 2022.10.05 ASCII code solution
-    public static boolean isAnagram(String s, String t){
+    public static boolean isAnagram_backup2(String s, String t){
 
         if(s.length() != t.length()) return false;
 
@@ -66,6 +66,26 @@ public class ValidAnagram {
 
         for(int n: container)
             if (n!=0) return false;
+        
+        return true;
+    }
+
+    // 2022.10.17
+    public static boolean isAnagram(String s, String t) {
+        
+        if(s.length() != t.length())
+            return false;
+        
+        char[] res = new char[26];
+        for(int i=0; i<s.length();i++){
+            res[s.charAt(i) - 'a']++;
+            res[t.charAt(i) - 'a']--;
+        }
+        
+        for(char r: res){
+            if(r != 0)
+                return false;
+        }
         
         return true;
     }

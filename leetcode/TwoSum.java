@@ -9,7 +9,7 @@ public class TwoSum {
 
 
     // 2022.10.07
-    public static int[] twoSum(int[] nums, int target) {
+    public static int[] twoSum_backup2(int[] nums, int target) {
         
         //<Integer, Integer>  = num[i], i
         HashMap<Integer, Integer> set = new HashMap<>();
@@ -45,5 +45,20 @@ public class TwoSum {
             map.put(nums[i], i);
         }
         return null;
+    }
+
+    // 2022.10.17
+    public static int[] twoSum(int[] nums, int target) {
+        
+        
+        //value and index
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<nums.length; i++){
+            int query = target - nums[i];
+            if(map.containsValue(query)) return new int[]{i, map.get(query)};
+            
+            map.put(nums[i], i);
+        }
+        return new int[]{};
     }
 }

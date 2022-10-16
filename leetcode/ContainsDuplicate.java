@@ -1,3 +1,4 @@
+import java.util.Set;
 import java.util.HashSet;
 
 /*
@@ -10,7 +11,7 @@ import java.util.HashSet;
 public class ContainsDuplicate {
 
     // 2022.10.04 Japar
-    public static boolean containsDuplicate(int[] nums) {
+    public static boolean containsDuplicate_backup1(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
         for(int i=0; i<nums.length; i++){
             if(set.contains(nums[i]))
@@ -19,6 +20,18 @@ public class ContainsDuplicate {
             set.add(nums[i]);
         }
         
+        
+        return false;
+    }
+
+    // 2022.10.17
+    public static boolean containsDuplicate(int[] nums) {
+        Set<Integer> setNums = new HashSet<>();
+        
+        for(int n: nums){
+            if(!setNums.add(n))
+                return true;
+        }
         
         return false;
     }
