@@ -8,8 +8,8 @@ public class ThreeSum {
     
     public static void main(String[] args){
         ThreeSum threeSum = new ThreeSum();
-        System.out.println(threeSum.threeSum(new int[]{-2,0,1,1,2}));
         System.out.println(threeSum.threeSum(new int[]{-1,0,1,0}));
+        System.out.println(threeSum.threeSum(new int[]{-2,0,1,1,2}));
         System.out.println(threeSum.threeSum(new int[]{-1,0,1,2,-1,-4}));
         System.out.println(threeSum.threeSum(new int[]{0,1,1}));
         System.out.println(threeSum.threeSum(new int[]{0,0,0}));
@@ -45,8 +45,8 @@ public class ThreeSum {
         return result;
     }
 
-    // 2022.11.01 // Did not pass [2,0,1,1,2], Output:[[-2,0,2]], Expected: [[-2,0,2],[-2,1,1]]
-    public List<List<Integer>> threeSum(int[] nums) {
+    // 2022.11.01 // Did not pass [-2,0,1,1,2], Output:[[-2,0,2]], Expected: [[-2,0,2],[-2,1,1]]
+    public List<List<Integer>> threeSum_backup2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         
         if (nums == null || nums.length < 3)
@@ -83,6 +83,46 @@ public class ThreeSum {
                 }
             }
             lastDigit = nums[i];
+        }
+        return result;
+    }
+
+    // 2022.11.07
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        if (nums == null || nums.length < 3)
+            return result;
+        
+        Arrays.sort(nums);
+        
+        int left, right, sum;
+        int n = nums.length;
+        
+        for(int i=0; i<n-2; i++){
+            if(i>0 && nums[i] == nums[i-1])
+                continue;
+            
+            left = i+1;
+            right = n-1;
+            while(left < right){
+                sum = nums[i] + nums[left] + nums[right];
+                if(sum<0){
+                    left++;
+                }else if(sum>0){
+                    right--;
+                }else{
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while(left < right && nums[left] == nums[left+1]){
+                        left++;
+                    }
+                    while(left < right && nums[right] == nums[right-1]){
+                        right--;
+                    }
+                    left++;
+                    right--;
+                }
+            }
         }
         return result;
     }
